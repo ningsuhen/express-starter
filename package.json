@@ -7,9 +7,8 @@
     "less": "~1.5.1",
     "less-middleware": "~0.1.14",
     "ejs": "~0.8.5",
-    "connect-assetmanager": "git://github.com/waiky/connect-assetmanager.git",
     "node-jst": "git://github.com/waiky/node-jst.git",
     "underscore": "~1.5.2",
-    "npmlog": "0.0.6"
+    "connect-assetmanager": "0.0.28"
   }
 }

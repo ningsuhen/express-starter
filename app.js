@@ -5,7 +5,19 @@ var express = require('express')
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var log4js = require('log4js');
 var app = express();
+app.conf = require('nconf');
+
+// Configure Log4js
+log4js.configure('config/log4js.json', {});
+log4js.loadAppender('file');
+logger = log4js.getLogger();
+
+// Load configurations from settings.json and defaults.json
+app.conf.argv().env().file({
+  file : './config/settings.json'
+}).defaults(require('./config/defaults.json'));
 
 // development only
 if ('development' == app.get('env')) {
@@ -30,7 +42,7 @@ if ('development' == app.get('env')) {
 }
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', app.conf.get('PORT') || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -42,12 +54,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 
-// production only
-// if ('production' == app.get('env')) {
-// app.set('db uri', 'n.n.n.n/prod');
-// }
-
-// app.get('/', routes.index);
+app.get('/', routes.index);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
