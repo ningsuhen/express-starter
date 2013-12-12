@@ -12,9 +12,6 @@ jst.compiler = 'underscore';
 jst.compile(__dirname + '/public/tpl', __dirname + '/public/js', function () {
     return console.log('recompiled to /public/js/templates.js');
 });
-//jst.watcher(__dirname + '/public/tpl', __dirname + '/public/js/', function () {
-//    return console.log('recompiled ' + '/javascripts/admin/templates.js'.red);
-//});
 
 var app = express();
 
@@ -26,7 +23,6 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
