@@ -9,8 +9,8 @@ var path = require('path');
 var lessMiddleware = require('less-middleware');
 var jst = require('jst');
 jst.compiler = 'underscore';
-jst.compile(__dirname + '/public/tpl', __dirname + '/public/js', function () {
-    return console.log('recompiled to /public/js/templates.js');
+jst.compile(__dirname + '/public/tpl', __dirname + '/public/js', function() {
+  return console.log('recompiled to /public/js/templates.js');
 });
 
 var app = express();
@@ -28,23 +28,23 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(require('less-middleware')({
-    src : __dirname + '/vendor/twitter/bootstrap/less',
-    dest : __dirname + '/public',
-    prefix : '/css',
-    compress : true
+  src : __dirname + '/vendor/twitter/bootstrap/less',
+  dest : __dirname + '/public',
+  prefix : '/css',
+  compress : true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-    app.use(express.errorHandler());
+  app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+// app.get('/', routes.index);
 // app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });
 
 // app.configure('development', function () {
