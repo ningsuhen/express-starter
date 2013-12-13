@@ -3,7 +3,6 @@
  */
 var express = require('express')
 var routes = require('./routes');
-var http = require('http');
 var path = require('path');
 var assetManager = require('connect-assetmanager');
 var assetHandler = require('connect-assetmanager-handlers');
@@ -93,6 +92,6 @@ app.use(app.router);
 
 app.get('/', routes.index);
 
-http.createServer(app).listen(app.get('port'), function() {
+app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
