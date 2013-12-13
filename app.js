@@ -5,6 +5,8 @@ var express = require('express')
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var assetManager = require('connect-assetmanager');
+var assetHandler = require('connect-assetmanager-handlers');
 var log4js = require('log4js');
 var app = express();
 app.conf = require('nconf');
@@ -21,11 +23,11 @@ app.conf.argv().env().file({
 
 // development only
 if ('development' == app.get('env')) {
+  console.log("hello")
   // compile LESS files to css
   app.use(require('less-middleware')({
-    src : __dirname + '/vendor/twitter/bootstrap/less',
-    dest : __dirname + '/public',
-    prefix : '/css',
+    src : __dirname + '/public/',
+    paths : [ __dirname + '/bower_components/bootstrap/less/' ],
     compress : true
   }));
   // compile underscore templates to single JST File
@@ -34,7 +36,42 @@ if ('development' == app.get('env')) {
   jst.compile(__dirname + '/public/tpl', __dirname + '/public/js', function() {
     return console.log('recompiled to /public/js/templates.js');
   });
+
+  // Combine javascript files to single file
+  var assetManagerGroups = {
+    'vendorjs' : {
+      'route' : /\/js\/vendors.min.js/,
+      'path' : __dirname + '/bower_components/',
+      'dataType' : 'javascript',
+      'files' : [ 'jquery/jquery.min.js', 'underscore/underscore-min.js',
+          'modernizr/modernizr.js', 'backbone/backbone-min.js',
+          'bootstrap/dist/js/bootstrap.min.js' ]
+    },
+    'mainjs' : {
+      'route' : /\/js\/main.min.js/,
+      'path' : __dirname + '/public/js/',
+      'dataType' : 'javascript',
+      'files' : [ 'plugins.js', 'templates.js', 'main.js' ]
+    },
+  // 'css' : {
+  // 'route' : /\/static\/css\/[0-9]+\/.*\.css/,
+  // 'path' : './public/css/',
+  // 'dataType' : 'css',
+  // 'files' : [ 'main.css', 'style.css' ],
+  // 'preManipulate' : {
+  // // Regexp to match user-agents including MSIE.
+  // 'MSIE' : [ assetHandler.yuiCssOptimize, assetHandler.fixVendorPrefixes,
+  // assetHandler.fixGradients, assetHandler.stripDataUrlsPrefix ],
+  // // Matches all (regex start line)
+  // '^' : [ assetHandler.yuiCssOptimize, assetHandler.fixVendorPrefixes,
+  // assetHandler.fixGradients,
+  // assetHandler.replaceImageRefToBase64(root) ]
+  // }
+  // }
+  };
 }
+var assetsManagerMiddleware = assetManager(assetManagerGroups);
+app.use(assetsManagerMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 // development only
 if ('development' == app.get('env')) {

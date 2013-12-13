@@ -11,6 +11,7 @@
     "underscore": "~1.5.2",
     "connect-assetmanager": "0.0.28",
     "log4js": "~0.6.9",
-    "nconf": "~0.6.9"
+    "nconf": "~0.6.9",
+    "connect-assetmanager-handlers": "0.0.18"
   }
 }
