@@ -9,6 +9,8 @@
     "ejs": "~0.8.5",
     "node-jst": "git://github.com/waiky/node-jst.git",
     "underscore": "~1.5.2",
-    "connect-assetmanager": "0.0.28"
+    "connect-assetmanager": "0.0.28",
+    "log4js": "~0.6.9",
+    "nconf": "~0.6.9"
   }
 }

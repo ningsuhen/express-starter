@@ -17,7 +17,7 @@ logger = log4js.getLogger();
 // Load configurations from settings.json and defaults.json
 app.conf.argv().env().file({
   file : './config/settings.json'
-}).defaults(require('./config/defaults.json'));
+}).defaults(require('./config/default-settings.json'));
 
 // development only
 if ('development' == app.get('env')) {
